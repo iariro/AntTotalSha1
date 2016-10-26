@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<project default="deploy">
+
+	<!-- JSP Total SHA1 build.xml -->
+
+	<property file="../../../../../build.properties" />
+	<property name="jarpath" value="../../../../../Java/AntTotalSha1Task.jar" />
+	<property environment="env"/>
+
+	<target name="zip">
+		<zip
+			destfile="${PDA_HOME}/Temp/AntTotalSha1.zip"
+			basedir=".."
+			includes="project/**"
+			excludes="**/*.class" />
+	</target>
+
+	<target name="codeguess" depends="deploy">
+		<taskdef name="codeguess" classname="kumagai.codeguess.CodeGuessTask" classpath="${JAVAPROJECTCHECKER_LIB}" />
+		<codeguess targetfilepath="src/">
+			<exclude extension="java" code="UTF-8" />
+		</codeguess>
+	</target>
+
+	<target name="javadoc">
+		<javadoc
+			destdir="../javadoc"
+			sourcepath="src"
+			encoding="utf-8"
+			classpath="${ANT_LIB};${KTOOL_LIB}">
+		</javadoc>
+	</target>
+
+	<target name="deploy">
+		<jar
+			destfile="${jarpath}"
+			basedir="bin"
+			includes="**/*.class">
+		</jar>
+	</target>
+
+</project>
